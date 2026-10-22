@@ -1,0 +1,129 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Property Manager | Shri Property Hub</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="navbar">
+    <a class="brand" href="index.html">
+      <span class="brand-icon">S</span>
+      <span>SHRI <strong>PROPERTY HUB</strong>
+        <small>PROPERTY MANAGER</small>
+      </span>
+    </a>
+    <a class="nav-button" href="index.html">View Website</a>
+  </header>
+
+  <main class="admin-page">
+    <div class="admin-heading">
+      <span class="eyebrow">WEBSITE MANAGEMENT</span>
+      <h1>Property Manager</h1>
+      <p>Add, edit or delete your property listings.</p>
+    </div>
+
+    <div class="admin-notice">
+      <strong>Demo mode:</strong> Listings are stored in this browser only.
+      This page has no secure login. Do not use it to manage confidential data
+      on a public website.
+    </div>
+
+    <section class="admin-panel">
+      <h2 id="formTitle">Add New Property</h2>
+
+      <form id="propertyForm">
+        <input type="hidden" id="propertyId">
+
+        <label for="title">Property Name *</label>
+        <input id="title" required maxlength="100"
+               placeholder="e.g. 2 BHK Apartment">
+
+        <div class="admin-form-grid">
+          <div>
+            <label for="purpose">Purpose *</label>
+            <select id="purpose" required>
+              <option value="buy">For Sale</option>
+              <option value="rent">For Rent</option>
+            </select>
+          </div>
+          <div>
+            <label for="type">Property Type *</label>
+            <select id="type" required>
+              <option value="apartment">Apartment</option>
+              <option value="commercial">Commercial</option>
+              <option value="plot">Plot & Land</option>
+            </select>
+          </div>
+          <div>
+            <label for="location">Location *</label>
+            <select id="location" required>
+              <option value="mumbai">Mumbai</option>
+              <option value="navi-mumbai">Navi Mumbai</option>
+              <option value="thane">Thane</option>
+            </select>
+          </div>
+          <div>
+            <label for="price">Price / Rent *</label>
+            <input id="price" required maxlength="50"
+                   placeholder="e.g. ₹85 lakh or ₹25,000/month">
+          </div>
+          <div>
+            <label for="bedrooms">Bedrooms / BHK</label>
+            <input id="bedrooms" maxlength="30" placeholder="e.g. 2 BHK">
+          </div>
+          <div>
+            <label for="area">Area</label>
+            <input id="area" maxlength="40" placeholder="e.g. 850 sq ft">
+          </div>
+        </div>
+
+        <label for="address">Full Address *</label>
+        <input id="address" required maxlength="200"
+               placeholder="Area, city, Maharashtra">
+
+        <label for="imageFile">Property Photo</label>
+<input
+  type="file"
+  id="imageFile"
+  accept="image/png,image/jpeg,image/webp"
+>
+<input type="hidden" id="imageUrl" value="">
+<img
+  id="imagePreview"
+  alt="Property photo preview"
+  style="display:none;max-width:300px;width:100%;margin-top:12px;border-radius:12px;"
+>
+
+        <label for="description">Property Description *</label>
+        <textarea id="description" required maxlength="2000" rows="5"
+                  placeholder="Write property details..."></textarea>
+
+        <div class="admin-actions">
+          <button type="submit" class="contact-button" id="saveButton">
+            Save Property
+          </button>
+          <button type="button" class="admin-secondary" id="cancelButton" hidden>
+            Cancel Edit
+          </button>
+        </div>
+        <p id="formMessage" class="result-message" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section class="admin-panel">
+      <h2>Your Listings <span id="listingCount">(0)</span></h2>
+      <div id="adminListings" class="admin-listings"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2026 Shri Property Hub</p>
+    <p class="disclaimer">Demo admin page — not protected by authentication.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
