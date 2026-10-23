@@ -21,7 +21,7 @@
 <hr><h2>Your Listings <span id="count">(0)</span></h2><div id="listings"></div></section></main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const sb=window.supabase.createClient("https://cbqsjvyrgaaiaarplcnps.supabase.co","sb_publishable_RYvYwAM-e2t8JvrraZlyw_NoL3L8Ic");
+const sb=window.supabase.createClient("https://cbqsjvyrgaaiarplcnps.supabase.co","sb_publishable_RYvYwAM-e2-t8JvrraZlyw_NoL3L8Ic");
 const $=id=>document.getElementById(id);let editing=null;
 async function check(){const {data:{session}}=await sb.auth.getSession();if(!session){$("loginPanel").hidden=false;$("manager").hidden=true;return}
 const {data,error}=await sb.from("admin_users").select("user_id").eq("user_id",session.user.id).maybeSingle();if(error||!data){await sb.auth.signOut();$("loginMessage").textContent="This account is not an authorized admin.";return}
