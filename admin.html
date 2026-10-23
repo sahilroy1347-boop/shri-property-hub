@@ -1,129 +1,36 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Property Manager | Shri Property Hub</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <header class="navbar">
-    <a class="brand" href="index.html">
-      <span class="brand-icon">S</span>
-      <span>SHRI <strong>PROPERTY HUB</strong>
-        <small>PROPERTY MANAGER</small>
-      </span>
-    </a>
-    <a class="nav-button" href="index.html">View Website</a>
-  </header>
-
-  <main class="admin-page">
-    <div class="admin-heading">
-      <span class="eyebrow">WEBSITE MANAGEMENT</span>
-      <h1>Property Manager</h1>
-      <p>Add, edit or delete your property listings.</p>
-    </div>
-
-    <div class="admin-notice">
-      <strong>Demo mode:</strong> Listings are stored in this browser only.
-      This page has no secure login. Do not use it to manage confidential data
-      on a public website.
-    </div>
-
-    <section class="admin-panel">
-      <h2 id="formTitle">Add New Property</h2>
-
-      <form id="propertyForm">
-        <input type="hidden" id="propertyId">
-
-        <label for="title">Property Name *</label>
-        <input id="title" required maxlength="100"
-               placeholder="e.g. 2 BHK Apartment">
-
-        <div class="admin-form-grid">
-          <div>
-            <label for="purpose">Purpose *</label>
-            <select id="purpose" required>
-              <option value="buy">For Sale</option>
-              <option value="rent">For Rent</option>
-            </select>
-          </div>
-          <div>
-            <label for="type">Property Type *</label>
-            <select id="type" required>
-              <option value="apartment">Apartment</option>
-              <option value="commercial">Commercial</option>
-              <option value="plot">Plot & Land</option>
-            </select>
-          </div>
-          <div>
-            <label for="location">Location *</label>
-            <select id="location" required>
-              <option value="mumbai">Mumbai</option>
-              <option value="navi-mumbai">Navi Mumbai</option>
-              <option value="thane">Thane</option>
-            </select>
-          </div>
-          <div>
-            <label for="price">Price / Rent *</label>
-            <input id="price" required maxlength="50"
-                   placeholder="e.g. ₹85 lakh or ₹25,000/month">
-          </div>
-          <div>
-            <label for="bedrooms">Bedrooms / BHK</label>
-            <input id="bedrooms" maxlength="30" placeholder="e.g. 2 BHK">
-          </div>
-          <div>
-            <label for="area">Area</label>
-            <input id="area" maxlength="40" placeholder="e.g. 850 sq ft">
-          </div>
-        </div>
-
-        <label for="address">Full Address *</label>
-        <input id="address" required maxlength="200"
-               placeholder="Area, city, Maharashtra">
-
-        <label for="imageFile">Property Photo</label>
-<input
-  type="file"
-  id="imageFile"
-  accept="image/png,image/jpeg,image/webp"
->
-<input type="hidden" id="imageUrl" value="">
-<img
-  id="imagePreview"
-  alt="Property photo preview"
-  style="display:none;max-width:300px;width:100%;margin-top:12px;border-radius:12px;"
->
-
-        <label for="description">Property Description *</label>
-        <textarea id="description" required maxlength="2000" rows="5"
-                  placeholder="Write property details..."></textarea>
-
-        <div class="admin-actions">
-          <button type="submit" class="contact-button" id="saveButton">
-            Save Property
-          </button>
-          <button type="button" class="admin-secondary" id="cancelButton" hidden>
-            Cancel Edit
-          </button>
-        </div>
-        <p id="formMessage" class="result-message" aria-live="polite"></p>
-      </form>
-    </section>
-
-    <section class="admin-panel">
-      <h2>Your Listings <span id="listingCount">(0)</span></h2>
-      <div id="adminListings" class="admin-listings"></div>
-    </section>
-  </main>
-
-  <footer>
-    <p>© 2026 Shri Property Hub</p>
-    <p class="disclaimer">Demo admin page — not protected by authentication.</p>
-  </footer>
-
-  <script src="script.js"></script>
-</body>
-</html>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Property Manager | Shri Property Hub</title><link rel="stylesheet" href="style.css">
+</head><body>
+<header class="navbar"><a class="brand" href="index.html">SHRI <strong>PROPERTY HUB</strong><small>PROPERTY MANAGER</small></a><a class="nav-button" href="index.html">View Website</a></header>
+<main class="admin-page">
+<div class="admin-heading"><span class="eyebrow">WEBSITE MANAGEMENT</span><h1>Property Manager</h1><p>Add, edit or delete property listings.</p></div>
+<section class="admin-panel" id="loginPanel"><h2>Admin Login</h2><form id="loginForm"><label>Email</label><input id="email" type="email" required><label>Password</label><input id="password" type="password" required><button>Login</button><p id="loginMessage"></p></form></section>
+<section class="admin-panel" id="manager" hidden>
+<div class="admin-actions"><h2 id="formTitle">Add Property</h2><button type="button" id="logout">Logout</button></div>
+<form id="propertyForm"><input type="hidden" id="pid">
+<label>Property title *</label><input id="title" required>
+<div class="admin-form-grid"><div><label>Purpose</label><select id="purpose"><option value="buy">For Sale</option><option value="rent">For Rent</option></select></div>
+<div><label>Type</label><select id="type"><option value="apartment">Apartment</option><option value="commercial">Commercial</option><option value="plot">Plot & Land</option></select></div>
+<div><label>Location</label><select id="location"><option value="mumbai">Mumbai</option><option value="navi-mumbai">Navi Mumbai</option><option value="thane">Thane</option></select></div>
+<div><label>Price/Rent</label><input id="price" required></div><div><label>BHK</label><input id="bedrooms"></div><div><label>Area</label><input id="area"></div></div>
+<label>Address *</label><input id="address" required><label>Image URL (https)</label><input id="image" type="url"><label>Description *</label><textarea id="description" rows="4" required></textarea>
+<div class="admin-actions"><button id="save">Save Property</button><button type="button" id="cancel" hidden>Cancel Edit</button></div><p id="formMessage"></p></form>
+<hr><h2>Your Listings <span id="count">(0)</span></h2><div id="listings"></div></section></main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const sb=window.supabase.createClient("https://cbqsjvyrgaaiaarplcnps.supabase.co","sb_publishable_RYvYwAM-e2t8JvrraZlyw_NoL3L8Ic");
+const $=id=>document.getElementById(id);let editing=null;
+async function check(){const {data:{session}}=await sb.auth.getSession();if(!session){$("loginPanel").hidden=false;$("manager").hidden=true;return}
+const {data,error}=await sb.from("admin_users").select("user_id").eq("user_id",session.user.id).maybeSingle();if(error||!data){await sb.auth.signOut();$("loginMessage").textContent="This account is not an authorized admin.";return}
+$("loginPanel").hidden=true;$("manager").hidden=false;load()}
+$("loginForm").onsubmit=async e=>{e.preventDefault();$("loginMessage").textContent="Logging in…";const {error}=await sb.auth.signInWithPassword({email:$("email").value,password:$("password").value});$("loginMessage").textContent=error?error.message:"";if(!error)check()};
+$("logout").onclick=async()=>{await sb.auth.signOut();check()};
+async function load(){const {data,error}=await sb.from("properties").select("*").order("created_at",{ascending:false});if(error){$("formMessage").textContent=error.message;return} $("count").textContent=`(${data.length})`;const box=$("listings");box.replaceChildren();data.forEach(p=>{const row=document.createElement("div");row.className="admin-listing";const info=document.createElement("div");info.innerHTML="";const title=document.createElement("h3");title.textContent=p.title;const desc=document.createElement("p");desc.textContent=`${p.location} · ${p.price}`;info.append(title,desc);const edit=document.createElement("button");edit.textContent="Edit";edit.onclick=()=>fill(p);const del=document.createElement("button");del.textContent="Delete";del.onclick=async()=>{if(confirm(`Delete ${p.title}?`)){const {error}=await sb.from("properties").delete().eq("id",p.id);$("formMessage").textContent=error?.message||"Deleted.";load()}};row.append(info,edit,del);box.append(row)})}
+function fill(p){editing=p.id;["title","purpose","type","location","price","bedrooms","area","address","description"].forEach(k=>$(k).value=p[k]??"");$("image").value=p.image??"";$("formTitle").textContent="Edit Property";$("cancel").hidden=false;window.scrollTo({top:0,behavior:"smooth"})}
+$("cancel").onclick=()=>{editing=null;$("propertyForm").reset();$("formTitle").textContent="Add Property";$("cancel").hidden=true};
+$("propertyForm").onsubmit=async e=>{e.preventDefault();const row={title:$("title").value.trim(),purpose:$("purpose").value,type:$("type").value,location:$("location").value,price:$("price").value.trim(),bedrooms:$("bedrooms").value.trim(),area:$("area").value.trim(),address:$("address").value.trim(),image:$("image").value.trim(),description:$("description").value.trim(),updated_at:new Date().toISOString()};const result=editing?await sb.from("properties").update(row).eq("id",editing):await sb.from("properties").insert(row);$("formMessage").textContent=result.error?.message||"Saved successfully.";if(!result.error){$("propertyForm").reset();editing=null;$("formTitle").textContent="Add Property";$("cancel").hidden=true;load()}};
+check();
+</script></body></html>
