@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Property details and enquiry - Shri Property Hub">
+  <title>Property Details | Shri Property Hub</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="navbar">
+    <a class="brand" href="index.html">
+      <span class="brand-icon">S</span>
+      <span>SHRI <strong>PROPERTY HUB</strong>
+        <small>YOUR PROPERTY PARTNER</small>
+      </span>
+    </a>
+    <nav>
+      <a href="index.html#home">Home</a>
+      <a href="index.html#properties">Properties</a>
+      <a href="index.html#services">Services</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+    <a class="nav-button" href="index.html#properties">View Properties</a>
+  </header>
+
+  <main class="details-page">
+    <a class="back-link" href="index.html#properties">← Back to Properties</a>
+
+    <p id="detailsStatus" class="result-message" aria-live="polite">
+      Loading property details...
+    </p>
+
+    <section id="detailsContent" hidden>
+      <div class="details-heading">
+        <div>
+          <p class="eyebrow" id="detailLocation"></p>
+          <h1 id="detailTitle"></h1>
+          <p id="detailAddress" class="details-address"></p>
+        </div>
+        <div class="details-price">
+          <span id="detailPurpose"></span>
+          <h2 id="detailPrice"></h2>
+        </div>
+      </div>
+
+      <div id="detailPhoto" class="details-main-photo"></div>
+
+      <div class="details-layout">
+        <section class="details-description">
+          <h2>Property Overview</h2>
+          <div id="detailFeatures" class="feature-grid"></div>
+
+          <h2>About This Property</h2>
+          <p id="detailDescription"></p>
+
+          <p class="sample-warning">
+            Demo listing: property information, price and availability
+            are illustrative. Verify all details before making a decision.
+          </p>
+        </section>
+
+        <aside class="details-contact">
+          <span class="eyebrow">INTERESTED IN THIS PROPERTY?</span>
+          <h2>Let's Connect</h2>
+          <p>Contact Shri Property Hub for more information.</p>
+          <a id="detailWhatsApp" class="contact-button"
+             href="#" target="_blank" rel="noopener noreferrer">
+            Enquire on WhatsApp
+          </a>
+          <a class="call-back-link" href="index.html#contact">
+            Other Contact Options
+          </a>
+        </aside>
+      </div>
+    </section>
+
+    <section id="detailsNotFound" hidden>
+      <h1>Property Not Found</h1>
+      <p>This property link may be invalid or the listing may not exist.</p>
+      <a class="contact-button" href="index.html#properties">
+        Browse Properties
+      </a>
+    </section>
+  </main>
+
+  <footer>
+    <a class="brand footer-brand" href="index.html">
+      <span class="brand-icon">S</span>
+      <span>SHRI <strong>PROPERTY HUB</strong>
+        <small>YOUR PROPERTY PARTNER</small>
+      </span>
+    </a>
+    <p>© 2026 Shri Property Hub. All rights reserved.</p>
+    <p class="disclaimer">Please verify property details before proceeding.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="script.js"></script>
+</body>
+</html>
