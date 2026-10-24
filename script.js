@@ -1,11 +1,18 @@
-// Shri Property Hub — Homepage + Property Details (Supabase)
-
 const SUPABASE_URL = "https://cbqsjvyrgaaiarplcnps.supabase.co";
-const SUPABASE_KEY = "sb_publishable_RYvYwAM-e2t8JvrrraZlyw_NoL3L8Ic";
+const SUPABASE_KEY = "sb_publishable_RYvYwAM-e2-t8JvrraZlyw_NoL3L8Ic";
+console.log("Supabase URL:", SUPABASE_URL);
+console.log("Supabase Key Prefix:", SUPABASE_KEY.substring(0, 15));
 
 const sbClient = window.supabase?.createClient
-  ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+  ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+      auth: {
+        persistSession: false,
+        autoRefreshToken: false,
+        detectSessionInUrl: false
+      }
+    })
   : null;
+
 
 const locationName = value => ({
   mumbai: "Mumbai",
@@ -95,7 +102,10 @@ async function renderHomepage() {
   try {
     properties = await loadProperties();
   } catch (error) {
-    console.error("Supabase properties load failed:", error);
+    console.log("ERROR MESSAGE:", error.message);
+console.log("ERROR CODE:", error.code);
+console.log("ERROR DETAILS:", error.details);
+console.log("ERROR HINT:", error.hint);
 
     if (message) {
       message.textContent =
