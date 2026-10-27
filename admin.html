@@ -17,10 +17,13 @@
 <div><label>Location</label><select id="location"><option value="mumbai">Mumbai</option><option value="navi-mumbai">Navi Mumbai</option><option value="thane">Thane</option></select></div>
 <div><label>Price/Rent</label><input id="price" required></div><div><label>BHK</label><input id="bedrooms"></div><div><label>Area</label><input id="area"></div></div>
 <label>Address *</label><input id="address" required>
-<label>Property Photo</label>
-<input id="imageFile" type="file" accept="image/*">
-<img id="imagePreview" alt="Property photo preview" hidden
-     style="width:200px;max-height:150px;object-fit:cover;margin:10px 0;border-radius:8px;">
+<label>Property Photos (Select multiple)</label>
+<input id="imageFiles" type="file" accept="image/*" multiple>
+
+<div id="imagePreviewContainer"
+     style="display:flex;flex-wrap:wrap;gap:10px;margin:10px 0;">
+</div>
+
 <input id="image" type="hidden">
 <p id="uploadMessage"></p>
 <label>Description *</label><textarea id="description" rows="4" required></textarea>
