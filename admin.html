@@ -17,6 +17,7 @@
 <div><label>Location</label><select id="location"><option value="mumbai">Mumbai</option><option value="navi-mumbai">Navi Mumbai</option><option value="thane">Thane</option></select></div>
 <div><label>Price/Rent</label><input id="price" required></div><div><label>BHK</label><input id="bedrooms"></div><div><label>Area</label><input id="area"></div></div>
 <label>Address *</label><input id="address" required>
+
 <label>Property Photos (Select multiple)</label>
 <input id="imageFiles" type="file" accept="image/*" multiple>
 
@@ -26,39 +27,58 @@
 
 <input id="image" type="hidden">
 <p id="uploadMessage"></p>
+
 <label>Description *</label><textarea id="description" rows="4" required></textarea>
 <div class="admin-actions"><button id="save">Save Property</button><button type="button" id="cancel" hidden>Cancel Edit</button></div><p id="formMessage"></p></form>
 <hr><h2>Your Listings <span id="count">(0)</span></h2><div id="listings"></div></section></main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const sb=window.supabase.createClient("https://cbqsjvyrgaaiarplcnps.supabase.co","sb_publishable_RYvYwAM-e2-t8JvrraZlyw_NoL3L8Ic");
-const $=id=>document.getElementById(id);let editing=null;
+const $ = id => document.getElementById(id);
+let editing = null;
+let existingImages = [];
 
 const CLOUDINARY_CLOUD_NAME = "zofwcvco";
 const CLOUDINARY_UPLOAD_PRESET = "shri_property_upload";
 
-$("imageFile").addEventListener("change", () => {
-  const file = $("imageFile").files[0];
-  const preview = $("imagePreview");
 
-  if (!file) {
-    preview.hidden = true;
-    preview.removeAttribute("src");
+$("imageFiles").addEventListener("change", () => {
+  const files = Array.from($("imageFiles").files);
+  const container = $("imagePreviewContainer");
+  const message = $("uploadMessage");
+
+  container.innerHTML = "";
+  message.textContent = "";
+
+  if (files.length === 0) return;
+
+  const invalidFile = files.find(
+    file => !file.type.startsWith("image/")
+  );
+
+  if (invalidFile) {
+    message.textContent = "Please select image files only.";
+    $("imageFiles").value = "";
+    container.innerHTML = "";
     return;
   }
 
-  if (!file.type.startsWith("image/")) {
-    $("uploadMessage").textContent = "Please choose an image file.";
-    $("imageFile").value = "";
-    preview.hidden = true;
-    return;
-  }
+  files.forEach(file => {
+    const preview = document.createElement("img");
+    preview.src = URL.createObjectURL(file);
+    preview.alt = "Selected property photo";
+    preview.style.width = "120px";
+    preview.style.height = "90px";
+    preview.style.objectFit = "cover";
+    preview.style.borderRadius = "8px";
 
-  preview.src = URL.createObjectURL(file);
-  preview.hidden = false;
-  $("uploadMessage").textContent =
-    "Photo selected. It will upload when you save.";
+    container.appendChild(preview);
+  });
+
+  message.textContent =
+    `${files.length} photo(s) selected. They will upload when you save.`;
 });
+
 
 async function uploadPropertyImage(file) {
   const formData = new FormData();
@@ -87,8 +107,53 @@ $("loginPanel").hidden=true;$("manager").hidden=false;load()}
 $("loginForm").onsubmit=async e=>{e.preventDefault();$("loginMessage").textContent="Logging in…";const {error}=await sb.auth.signInWithPassword({email:$("email").value,password:$("password").value});$("loginMessage").textContent=error?error.message:"";if(!error)check()};
 $("logout").onclick=async()=>{await sb.auth.signOut();check()};
 async function load(){const {data,error}=await sb.from("properties").select("*").order("created_at",{ascending:false});if(error){$("formMessage").textContent=error.message;return} $("count").textContent=`(${data.length})`;const box=$("listings");box.replaceChildren();data.forEach(p=>{const row=document.createElement("div");row.className="admin-listing";const info=document.createElement("div");info.innerHTML="";const title=document.createElement("h3");title.textContent=p.title;const desc=document.createElement("p");desc.textContent=`${p.location} · ${p.price}`;info.append(title,desc);const edit=document.createElement("button");edit.textContent="Edit";edit.onclick=()=>fill(p);const del=document.createElement("button");del.textContent="Delete";del.onclick=async()=>{if(confirm(`Delete ${p.title}?`)){const {error}=await sb.from("properties").delete().eq("id",p.id);$("formMessage").textContent=error?.message||"Deleted.";load()}};row.append(info,edit,del);box.append(row)})}
-function fill(p){editing=p.id;["title","purpose","type","location","price","bedrooms","area","address","description"].forEach(k=>$(k).value=p[k]??"");$("image").value=p.image??"";$("formTitle").textContent="Edit Property";$("cancel").hidden=false;window.scrollTo({top:0,behavior:"smooth"})}
-$("cancel").onclick=()=>{editing=null;$("propertyForm").reset();$("formTitle").textContent="Add Property";$("cancel").hidden=true};
+
+function fill(p) {
+  editing = p.id;
+
+  ["title", "purpose", "type", "location", "price",
+   "bedrooms", "area", "address", "description"]
+    .forEach(k => $(k).value = p[k] ?? "");
+
+  $("image").value = p.image ?? "";
+
+  existingImages = Array.isArray(p.images)
+    ? [...p.images]
+    : (p.image ? [p.image] : []);
+
+  const container = $("imagePreviewContainer");
+  container.innerHTML = "";
+
+  existingImages.forEach(url => {
+    const preview = document.createElement("img");
+    preview.src = url;
+    preview.alt = "Saved property photo";
+    preview.style.width = "120px";
+    preview.style.height = "90px";
+    preview.style.objectFit = "cover";
+    preview.style.borderRadius = "8px";
+    container.appendChild(preview);
+  });
+
+  $("imageFiles").value = "";
+  $("uploadMessage").textContent =
+    `${existingImages.length} saved photo(s). New photos will be added when you save.`;
+
+  $("formTitle").textContent = "Edit Property";
+  $("cancel").hidden = false;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+$("cancel").onclick = () => {
+  editing = null;
+  existingImages = [];
+  $("propertyForm").reset();
+  $("imagePreviewContainer").innerHTML = "";
+  $("uploadMessage").textContent = "";
+  $("formTitle").textContent = "Add Property";
+  $("cancel").hidden = true;
+};
+
 
 $("propertyForm").onsubmit = async e => {
   e.preventDefault();
@@ -102,15 +167,22 @@ $("propertyForm").onsubmit = async e => {
   uploadMessage.textContent = "";
 
   try {
-    let imageUrl = $("image").value.trim();
-    const file = $("imageFile").files[0];
+    const files = Array.from($("imageFiles").files);
+    let imageUrls = [...existingImages];
 
-    if (file) {
-      uploadMessage.textContent = "Uploading photo...";
-      imageUrl = await uploadPropertyImage(file);
-      $("image").value = imageUrl;
-      uploadMessage.textContent = "Photo uploaded successfully.";
+    if (files.some(file => !file.type.startsWith("image/"))) {
+      throw new Error("Please select image files only.");
     }
+
+    for (let i = 0; i < files.length; i++) {
+      uploadMessage.textContent =
+        `Uploading photo ${i + 1} of ${files.length}...`;
+
+      const url = await uploadPropertyImage(files[i]);
+      imageUrls.push(url);
+    }
+
+    const imageUrl = imageUrls[0] || $("image").value.trim();
 
     const row = {
       title: $("title").value.trim(),
@@ -122,30 +194,37 @@ $("propertyForm").onsubmit = async e => {
       area: $("area").value.trim(),
       address: $("address").value.trim(),
       image: imageUrl,
+      images: imageUrls,
       description: $("description").value.trim(),
       updated_at: new Date().toISOString()
     };
-
-    const result = editing
+ const result = editing
       ? await sb.from("properties").update(row).eq("id", editing)
       : await sb.from("properties").insert(row);
 
     if (result.error) throw result.error;
 
-    message.textContent = "Property saved successfully!";
+    message.textContent =
+      `Property saved successfully! ${imageUrls.length} photo(s) saved.`;
+
     $("propertyForm").reset();
-    $("imagePreview").hidden = true;
-    $("imagePreview").removeAttribute("src");
+    $("imagePreviewContainer").innerHTML = "";
+    $("uploadMessage").textContent = "";
+
     editing = null;
+    existingImages = [];
+
     $("formTitle").textContent = "Add Property";
     $("cancel").hidden = true;
 
     await load();
+
   } catch (error) {
     console.error(error);
     message.textContent = error.message || "Something went wrong.";
   } finally {
     saveButton.disabled = false;
-}
+  }
 };
+ 
 </script></body></html>
